@@ -31,7 +31,7 @@ module.exports = function(passport) {
 
         consumerKey     : process.env.CONSUMER_KEY,
         consumerSecret  : process.env.CONSUMER_SECRET,
-        callbackURL     : 'http://127.0.0.1:3000/auth/twitter/callback',
+        callbackURL     : 'https://stevepics.herokuapp.com/auth/twitter/callback',
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
     },
