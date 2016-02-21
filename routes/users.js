@@ -7,7 +7,7 @@ var User       = require('../models/user');
 /* GET users listing. */
 router.get('/myprofile', ensureAuthenticated, function(req, res, next) {
   console.log(req.user);
-  res.send('Welcome, ' + req.user.twitter.username);
+  res.render('myprofile', {user: req.user.twitter});
 });
 
 /* Passport function for access control. */
