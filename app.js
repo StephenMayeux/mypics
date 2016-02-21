@@ -49,18 +49,23 @@ app.use('/pics', pics);
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
 
-    // twitter --------------------------------
+// twitter --------------------------------
 
-        // send to twitter to do the authentication
-        app.get('/auth/twitter', passport.authenticate('twitter', { scope : 'email' }));
+// send to twitter to do the authentication
+app.get('/auth/twitter', passport.authenticate('twitter', { scope : 'email' }));
 
-        // handle the callback after twitter has authenticated the user
-        app.get('/auth/twitter/callback',
-            passport.authenticate('twitter', {
-                successRedirect : '/',
-                failureRedirect : '/'
-            }));
+// handle the callback after twitter has authenticated the user
+app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', {
+        successRedirect : '/',
+        failureRedirect : '/'
+    }));
 
+// LOGOUT ==============================
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
