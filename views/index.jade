@@ -10,6 +10,16 @@ block content
         a(href="/users/myprofile", class="btn btn-primary") My Profile
         a(href="#", class="btn btn-primary", id="onclick") Add Pics
         a(href="/logout", class="btn btn-default") Logout
+    .row
+      if pics.length > 0
+        each pic, i in pics
+          .col-xs-6.col-md-4
+            .thumbnail
+              img.img-responsive(src="#{pic.url}", alt="#{pic.title}", onError="this.onerror=null;this.src='/images/broken.png';")
+              .caption
+                p.lead #{pic.title}
+                p
+                  a.btn.btn-default(href='/users/#{pic.user}', role='button') #{pic.user}'s Profile
     #addpics
       form#pics.form(method="post", action='/pics/addpic')
         img#cancel.img(src='button_cancel.png')

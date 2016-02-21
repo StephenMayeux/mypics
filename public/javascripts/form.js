@@ -7,5 +7,5 @@ $(document).ready(function() {
  $("#addpics #cancel").click(function() {
     $(this).parent().parent().hide();
   });
-  
+
 });

@@ -84,3 +84,7 @@ input[type=button], input[type=submit]{
   color:white;
   width:49%;
 }
+
+.thumbnail {
+  margin: 5px;
+}

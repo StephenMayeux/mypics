@@ -24,4 +24,12 @@ router.post('/addpic', function(req, res, next) {
 
 });
 
+router.get('/delete/:id', function(req, res, next) {
+  Pic.deletePic(req.params.id, function(err, data) {
+    if (err) throw err;
+    console.log('Pic was removed');
+    res.redirect('/users/myprofile');
+  });
+});
+
 module.exports = router;
