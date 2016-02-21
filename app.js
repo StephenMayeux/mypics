@@ -1,14 +1,23 @@
 var express = require('express');
+require('dotenv').config();
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var pics = require('./routes/pics');
 
 var app = express();
+
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/mypics');
+
+require('./config/passport')(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +31,44 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// required for passport
+app.use(session({ secret: 'thenightisyoung' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+
+app.get('*', function(req, res, next) { // asterick applies to all views
+  res.locals.user = req.user || null; // locals is a var accessible for all views
+  next();
+});
+
 app.use('/', routes);
 app.use('/users', users);
+app.use('/pics', pics);
+
+// =============================================================================
+// AUTHENTICATE (FIRST LOGIN) ==================================================
+// =============================================================================
+
+    // twitter --------------------------------
+
+        // send to twitter to do the authentication
+        app.get('/auth/twitter', passport.authenticate('twitter', { scope : 'email' }));
+
+        // handle the callback after twitter has authenticated the user
+        app.get('/auth/twitter/callback',
+            passport.authenticate('twitter', {
+                successRedirect : '/',
+                failureRedirect : '/'
+            }));
+
+
+// route middleware to ensure user is logged in
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/');
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

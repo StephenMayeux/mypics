@@ -3,3 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  if !user
+    a(href="/auth/twitter", class="btn btn-primary") Go!
+  else
+    p You are logged in!
