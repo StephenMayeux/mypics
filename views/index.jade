@@ -1,10 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  if !user
-    a(href="/auth/twitter", class="btn btn-primary") Go!
-  else
-    p You are logged in!
-    a(href="/logout", class="btn btn-primary") Logout!
+  .container
+    .col-md-12.text-center
+      h1.intro Stephen's Pinterest Clone
+      if !user
+        a(href="/auth/twitter", class="btn btn-primary intro") Sign In
+      else
+        a(href="/logout", class="btn btn-primary") My Profile
+        a(href="/logout", class="btn btn-primary") Add Pics
+        a(href="/logout", class="btn btn-default") Logout
